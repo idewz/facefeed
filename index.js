@@ -36,9 +36,10 @@ server.route({
                     }
                     var feed = new RSS(feedOptions)
                     res.data.forEach(function(item) {
+                        body = item.message || item.story
                         feed.item({
-                            title: item.message.substring(0, 140),
-                            description: item.message,
+                            title: body.substring(0, 140),
+                            description: body,
                             url: item.link,
                             guid: item.id,
                         });
