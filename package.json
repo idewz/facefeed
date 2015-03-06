@@ -10,5 +10,10 @@
     "facebook"
   ],
   "author": "Siwadon Saosoong",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "fbgraph": "^0.3.0",
+    "hapi": "^8.2.0",
+    "rss": "^1.1.1"
+  }
 }
