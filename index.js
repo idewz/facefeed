@@ -3,8 +3,7 @@ var RSS   = require('rss')
 var Hapi  = require('hapi')
 
 var server = new Hapi.Server()
-server.connection({ 
-    host: 'localhost', 
+server.connection({  
     port: process.env.PORT || 8000
 })
 
