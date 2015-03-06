@@ -1,0 +1,14 @@
+{
+  "name": "facefeed",
+  "version": "0.0.1",
+  "description": "Facebook Feed Generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "keywords": [
+    "facebook"
+  ],
+  "author": "Siwadon Saosoong",
+  "license": "MIT"
+}
