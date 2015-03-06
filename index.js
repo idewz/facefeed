@@ -29,6 +29,8 @@ server.route({
                     var feedOptions = {
                         title: res.data[0].to.data[0].name,
                         description: '',
+                        pubDate: res.data[0].updated_time,
+                        language: 'th',
                         feed_url: 'http://facefeed.herokuapp.com/' + id,
                         ttl: 10
                     }
