@@ -5,7 +5,7 @@ var Hapi  = require('hapi')
 var server = new Hapi.Server()
 server.connection({ 
     host: 'localhost', 
-    port: 80
+    port: process.env.PORT || 8000
 })
 
 graph.setAccessToken(process.env['ACCESS_TOKEN'])
