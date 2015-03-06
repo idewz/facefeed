@@ -40,7 +40,7 @@ server.route({
                         feed.item({
                             title: body.substring(0, 140),
                             description: body,
-                            url: item.link,
+                            url: item.actions[0].link,
                             guid: item.id,
                         });
                     });
