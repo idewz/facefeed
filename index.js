@@ -24,27 +24,39 @@ server.route({
             graph
                 .setOptions(options)
                 .get(id + "/feed", function(err, res) {
-                    // reply(res.data);
-                    var feedOptions = {
-                        title: res.data[0].to.data[0].name,
-                        description: '',
-                        pubDate: res.data[0].updated_time,
-                        language: 'th',
-                        feed_url: 'http://facefeed.herokuapp.com/' + id,
-                        ttl: 10
+                    if (err) {
+                        reply(err)
+                        return
                     }
-                    var feed = new RSS(feedOptions)
-                    res.data.forEach(function(item) {
-                        body = item.message || item.story
-                        feed.item({
-                            title: body.substring(0, 140),
-                            description: body,
-                            url: item.actions[0].link,
-                            guid: item.id,
+                    if (res.data.length === 0) {
+                        reply("no data")
+                        return
+                    }
+                    try {
+                        var feedOptions = {
+                            title: res.data[0].to.data[0].name,
+                            description: '',
+                            pubDate: res.data[0].updated_time,
+                            language: 'th',
+                            feed_url: 'http://facefeed.herokuapp.com/' + id,
+                            ttl: 10
+                        }
+                        var feed = new RSS(feedOptions)
+                        res.data.forEach(function(item) {
+                            body = item.message || item.story
+                            feed.item({
+                                title: body.substring(0, 140),
+                                description: body,
+                                url: item.actions[0].link,
+                                guid: item.id,
+                            });
                         });
-                    });
-                    reply(feed.xml());
-                });
+                        reply(feed.xml());
+                    }
+                    catch(ex) {
+                        reply("problem generating feed:" + res)
+                    }
+                })
         }
         else {
             reply(request.params.id + ' is not a group id. you can find by going to <a href="http://lookup-id.com/">lookup-id.com</a>')
