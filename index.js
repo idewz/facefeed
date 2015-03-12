@@ -10,7 +10,7 @@ server.connection({
 graph.setAccessToken(process.env['ACCESS_TOKEN'])
 
 var options = {
-    timeout:  3000
+    timeout:  5000
   , pool:     { maxSockets: Infinity }
   , headers:  { connection: "keep-alive" }
 }
