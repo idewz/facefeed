@@ -43,7 +43,7 @@ server.route({
                         }
                         var feed = new RSS(feedOptions)
                         res.data.forEach(function(item) {
-                            body = item.message || item.story
+                            body = item.message || item.story || ''
                             feed.item({
                                 title: body.substring(0, 140),
                                 description: body,
