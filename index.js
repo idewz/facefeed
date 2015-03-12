@@ -54,7 +54,7 @@ server.route({
                         reply(feed.xml());
                     }
                     catch(ex) {
-                        reply("problem generating feed:" + res)
+                        reply("problem generating feed: " + ex)
                     }
                 })
         }
