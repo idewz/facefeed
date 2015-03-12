@@ -33,10 +33,11 @@ server.route({
                         return
                     }
                     try {
+                        var data = res.data[0];
                         var feedOptions = {
-                            title: res.data[0].to.data[0].name,
+                            title: data.to ? data.to.data[0].name : data.from.name,
                             description: '',
-                            pubDate: res.data[0].updated_time,
+                            pubDate: data.updated_time,
                             language: 'th',
                             feed_url: 'http://facefeed.herokuapp.com/' + id,
                             ttl: 10
@@ -47,7 +48,7 @@ server.route({
                             feed.item({
                                 title: body.substring(0, 140),
                                 description: body,
-                                url: item.actions[0].link,
+                                url: item.actions ? item.actions[0].link : item.link,
                                 guid: item.id,
                             });
                         });
