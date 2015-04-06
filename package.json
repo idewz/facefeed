@@ -4,7 +4,9 @@
   "description": "Facebook Feed Generator",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "npm test",
+    "jscs": "jscs .",
+    "lint": "jshint ."
   },
   "keywords": [
     "facebook"
@@ -15,5 +17,14 @@
     "fbgraph": "^0.3.0",
     "hapi": "^8.2.0",
     "rss": "^1.1.1"
-  }
+  },
+  "devDependencies": {
+    "jscs": "^1.12.0",
+    "jshint": "^2.6.3",
+    "pre-commit": "^1.0.6"
+  },
+  "pre-commit": [
+    "lint",
+    "jscs"
+  ]
 }
