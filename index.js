@@ -13,8 +13,8 @@ server.route({
   method: 'GET',
   path: '/{id}',
   handler: function(request, reply) {
-    feed.fetch_graph(request.params.id)
-      .then(feed.generate_feed)
+    feed.fetchGraph(request.params.id)
+      .then(feed.generateFeed)
       .then(reply)
       .catch(reply);
   },

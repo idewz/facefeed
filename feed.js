@@ -4,15 +4,15 @@ var RSS   = require('rss');
 graph.setAccessToken(process.env.ACCESS_TOKEN);
 
 function Feed() {
-  this.request_options = {
+  this.requestOptions = {
     timeout: process.env.REQUEST_TIMEOUT || 5000,
   };
 }
 
-Feed.prototype.fetch_graph = function(id) {
+Feed.prototype.fetchGraph = function(id) {
   return new Promise(function(resolve, reject) {
     graph
-      .setOptions(this.request_options)
+      .setOptions(this.requestOptions)
       .get(id + '/feed', function(err, res) {
         if (err) {
           reject(err);
@@ -25,7 +25,7 @@ Feed.prototype.fetch_graph = function(id) {
   });
 };
 
-Feed.prototype.generate_feed = function(res) {
+Feed.prototype.generateFeed = function(res) {
   try {
     var data = res.data[0];
     var feedOptions = {
