@@ -16,6 +16,7 @@
   "dependencies": {
     "fbgraph": "^0.3.0",
     "hapi": "^8.2.0",
+    "joi": "^6.1.1",
     "rss": "^1.1.1"
   },
   "devDependencies": {

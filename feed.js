@@ -3,20 +3,16 @@ var RSS   = require('rss');
 
 graph.setAccessToken(process.env.ACCESS_TOKEN);
 
-var options = {
-  timeout: process.env.REQUEST_TIMEOUT || 5000,
-  pool: {
-    maxSockets: Infinity
-  },
-  headers: {
-    connection: 'keep-alive'
-  }
-};
+function Feed() {
+  this.request_options = {
+    timeout: process.env.REQUEST_TIMEOUT || 5000,
+  };
+}
 
-var fetch_graph = function(id) {
+Feed.prototype.fetch_graph = function(id) {
   return new Promise(function(resolve, reject) {
     graph
-      .setOptions(options)
+      .setOptions(this.request_options)
       .get(id + '/feed', function(err, res) {
         if (err) {
           reject(err);
@@ -29,7 +25,7 @@ var fetch_graph = function(id) {
   });
 };
 
-var generate_feed = function(res) {
+Feed.prototype.generate_feed = function(res) {
   try {
     var data = res.data[0];
     var feedOptions = {
@@ -59,20 +55,4 @@ var generate_feed = function(res) {
   }
 };
 
-var get_feed_by_id = function(request, reply) {
-  if (parseInt(request.params.id)) {
-    fetch_graph(request.params.id)
-      .then(generate_feed)
-      .then(reply)
-      .catch(reply);
-  } else {
-    reply(
-      request.params.id + ' is not a valid page/group id. ' +
-      'find one at <a href="http://lookup-id.com/">lookup-id.com</a>'
-    );
-  }
-};
-
-module.exports = {
-  get_feed_by_id: get_feed_by_id
-};
+module.exports = Feed;
