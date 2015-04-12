@@ -4,7 +4,7 @@ var RSS   = require('rss');
 graph.setAccessToken(process.env.ACCESS_TOKEN);
 
 var options = {
-  timeout: 5000,
+  timeout: process.env.REQUEST_TIMEOUT || 5000,
   pool: {
     maxSockets: Infinity
   },
