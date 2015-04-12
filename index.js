@@ -19,56 +19,70 @@ var options = {
   }
 };
 
+var get_feed_by_id = function(request, reply) {
+  if (parseInt(request.params.id)) {
+    fetch_graph(request.params.id)
+      .then(generate_feed)
+      .then(reply)
+      .catch(reply);
+  } else {
+    reply(
+      request.params.id + ' is not a valid page/group id. ' +
+      'find one at <a href="http://lookup-id.com/">lookup-id.com</a>'
+    );
+  }
+};
+
+var fetch_graph = function(id) {
+  return new Promise(function(resolve, reject) {
+    graph
+      .setOptions(options)
+      .get(id + '/feed', function(err, res) {
+        if (err) {
+          reject(err);
+        }
+        if (typeof res.data === 'undefined' || res.data.length === 0) {
+          reject('no data found');
+        }
+        resolve(res);
+      });
+  });
+};
+
+var generate_feed = function(res) {
+  try {
+    var data = res.data[0];
+    var feedOptions = {
+      title: data.to ? data.to.data[0].name : data.from.name,
+      description: '',
+      pubDate: data.updated_time,
+      language: 'th',
+      feed_url: 'http://facefeed.herokuapp.com/' + data.from.id,
+      ttl: 10
+    };
+    var feed = new RSS(feedOptions);
+
+    res.data.forEach(function(item) {
+      body = item.message || item.story || '';
+      feed.item({
+        title: body.substring(0, 140),
+        description: body,
+        url: item.actions ? item.actions[0].link : item.link,
+        guid: item.id,
+      });
+    });
+
+    return feed.xml();
+  }
+  catch (ex) {
+    return 'problem generating feed ' + ex;
+  }
+};
+
 server.route({
   method: 'GET',
-  path:'/{id}',
-  handler: function(request, reply) {
-    var id = parseInt(request.params.id);
-    if (id) {
-      graph
-        .setOptions(options)
-        .get(id + '/feed', function(err, res) {
-          if (err) {
-            reply(err);
-            return;
-          }
-          if (res.data.length === 0) {
-            reply('no data');
-            return;
-          }
-          try {
-            var data = res.data[0];
-            var feedOptions = {
-              title: data.to ? data.to.data[0].name : data.from.name,
-              description: '',
-              pubDate: data.updated_time,
-              language: 'th',
-              feed_url: 'http://facefeed.herokuapp.com/' + id,
-              ttl: 10
-            };
-            var feed = new RSS(feedOptions);
-            res.data.forEach(function(item) {
-              body = item.message || item.story || '';
-              feed.item({
-                title: body.substring(0, 140),
-                description: body,
-                url: item.actions ?
-                  item.actions[0].link : item.link,
-                guid: item.id,
-              });
-            });
-            reply(feed.xml());
-          }
-          catch (ex) {
-            reply('problem generating feed: ' + ex);
-          }
-        });
-    } else {
-      reply(
-        request.params.id + ' is not a group id. You can find it by going to ' +
-        '<a href="http://lookup-id.com/">lookup-id.com</a>');
-    }
-  }
+  path: '/{id}',
+  handler: get_feed_by_id
 });
 
 server.start(function() {
