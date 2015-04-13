@@ -9,10 +9,20 @@
     "lint": "jshint ."
   },
   "keywords": [
-    "facebook"
+    "facebook",
+    "feed",
+    "rss"
   ],
   "author": "Siwadon Saosoong",
   "license": "MIT",
+  "homepage": "https://github.com/idewz/facefeed",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/idewz/facefeed.git"
+  },
+  "bugs": {
+    "url": "https://github.com/idewz/facefeed/issues"
+  },
   "dependencies": {
     "fbgraph": "^0.3.0",
     "hapi": "^8.2.0",
