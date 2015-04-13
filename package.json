@@ -2,7 +2,7 @@
   "name": "facefeed",
   "version": "0.0.1",
   "description": "Facebook Feed Generator",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "npm test",
     "jscs": "jscs .",
