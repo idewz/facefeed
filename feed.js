@@ -1,28 +1,30 @@
-var graph = require('fbgraph');
-var RSS   = require('rss');
-
-graph.setAccessToken(process.env.ACCESS_TOKEN);
+var Q       = require('q');
+var request = require('request');
+var RSS     = require('rss');
 
 function Feed() {
-  this.requestOptions = {
-    timeout: process.env.REQUEST_TIMEOUT || 5000,
-  };
+  this.token = process.env.ACCESS_TOKEN;
 }
 
 Feed.prototype.fetchGraph = function(id) {
-  return new Promise(function(resolve, reject) {
-    graph
-      .setOptions(this.requestOptions)
-      .get(id + '/feed', function(err, res) {
-        if (err) {
-          reject(err);
-        }
-        if (typeof res.data === 'undefined' || res.data.length === 0) {
-          reject('no data found');
-        }
-        resolve(res);
-      });
+  var deferred = Q.defer();
+  var options  = {
+    url: 'https://graph.facebook.com/v2.3/' + id + '/feed',
+    timeout: 5000,
+    qs: {
+      access_token: this.token
+    }
+  };
+
+  request(options, function(err, res, body) {
+    if (err) {
+      deferred.reject(err);
+    } else {
+      deferred.resolve(JSON.parse(body));
+    }
   });
+
+  return deferred.promise;
 };
 
 Feed.prototype.generateFeed = function(res) {
