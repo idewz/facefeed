@@ -10,7 +10,7 @@ Feed.prototype.fetchGraph = function(id) {
   var deferred = Q.defer();
   var options  = {
     url: 'https://graph.facebook.com/v2.3/' + id + '/feed',
-    timeout: 5000,
+    timeout: process.env.NODE_ENV === 'test' ? 200 : 5000,
     qs: {
       access_token: this.token
     }
@@ -18,7 +18,9 @@ Feed.prototype.fetchGraph = function(id) {
 
   request(options, function(err, res, body) {
     if (err) {
-      deferred.reject(err);
+      deferred.reject(err.code);
+    } else if (res.statusCode !== 200) {
+      deferred.reject(JSON.parse(body));
     } else {
       deferred.resolve(JSON.parse(body));
     }

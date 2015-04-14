@@ -4,7 +4,7 @@
   "description": "Facebook Feed Generator",
   "main": "server.js",
   "scripts": {
-    "test": "npm test",
+    "test": "lab",
     "jscs": "jscs .",
     "lint": "jshint ."
   },
@@ -32,8 +32,11 @@
     "rss": "^1.1.1"
   },
   "devDependencies": {
+    "chai": "^2.2.0",
     "jscs": "^1.12.0",
     "jshint": "^2.6.3",
+    "lab": "^5.5.1",
+    "nock": "^1.6.0",
     "pre-commit": "^1.0.6"
   },
   "pre-commit": [
