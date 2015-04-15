@@ -1,4 +1,4 @@
-## Facefeed
+## Facefeed [![Build Status](https://travis-ci.org/idewz/facefeed.svg?branch=master)](https://travis-ci.org/idewz/facefeed)
 
 Simple Facebook RSS Feed Generator (currently support public group/page)
 
