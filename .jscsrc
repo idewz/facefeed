@@ -10,7 +10,7 @@
     ],
     "requireOperatorBeforeLineBreak": true,
     "maximumLineLength": {
-      "value": 80,
+      "value": 120,
       "allowComments": true,
       "allowRegex": true
     },
@@ -61,5 +61,5 @@
     "disallowMultipleLineBreaks": true,
     "disallowNewlineBeforeBlockStatements": true,
 
-    "excludeFiles": [ "node_modules/**" ]
+    "excludeFiles": [ "node_modules/**", "test/data/**" ]
 }
