@@ -31,23 +31,24 @@ Feed.prototype.fetchGraph = function(id) {
 
 Feed.prototype.generateFeed = function(res) {
   try {
-    var data = res.data[0];
+    var data        = res.data[0];
+    var pageMeta    = data.to ? data.to.data[0] : data.from;
     var feedOptions = {
-      title: data.to ? data.to.data[0].name : data.from.name,
-      description: '',
-      pubDate: data.updated_time,
+      title:    pageMeta.name,
+      pubDate:  data.updated_time,
       language: 'th',
-      feed_url: 'http://facefeed.herokuapp.com/' + data.from.id,
-      ttl: 10
+      site_url: 'https://www.facebook.com/' + pageMeta.id,
+      feed_url: 'http://facefeed.herokuapp.com/' + pageMeta.id,
+      ttl:      10
     };
     var feed = new RSS(feedOptions);
 
     res.data.forEach(function(item) {
-      body = item.message || item.story || '';
+      var body = item.message || item.story || '';
       feed.item({
         title: body.substring(0, 140),
         description: body,
-        url: item.actions ? item.actions[0].link : item.link,
+        url: item.link || 'https://www.facebook.com/' + item.id,
         guid: item.id,
       });
     });
