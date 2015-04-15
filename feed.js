@@ -1,16 +1,17 @@
+var conf    = require('./config');
 var Q       = require('q');
 var request = require('request');
 var RSS     = require('rss');
 
 function Feed() {
-  this.token = process.env.ACCESS_TOKEN;
+  this.token = conf.get('ACCESS_TOKEN');
 }
 
 Feed.prototype.fetchGraph = function(id) {
   var deferred = Q.defer();
   var options  = {
     url: 'https://graph.facebook.com/v2.3/' + id + '/feed',
-    timeout: process.env.NODE_ENV === 'test' ? 200 : 5000,
+    timeout: conf.get('TIMEOUT'),
     qs: {
       access_token: this.token
     }

@@ -1,3 +1,4 @@
+var conf = require('./config');
 var Feed = require('./feed');
 var Hapi = require('hapi');
 var Joi  = require('joi');
@@ -6,7 +7,7 @@ var feed   = new Feed();
 var server = new Hapi.Server();
 
 server.connection({
-  port: process.env.PORT || 8000
+  port: conf.get('PORT')
 });
 
 server.route({
