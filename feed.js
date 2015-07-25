@@ -16,7 +16,7 @@ Feed.prototype.fetchGraph = function(id, type) {
   var deferred = Q.defer();
   var edge     = this.allowed_types.indexOf(type) != -1 ? type : 'feed';
   var options  = {
-    url: 'https://graph.facebook.com/v2.4/' + id + '/' + edge,
+    url: 'https://graph.facebook.com/v2.3/' + id + '/' + edge,
     timeout: conf.get('TIMEOUT'),
     qs: {
       access_token: this.token
