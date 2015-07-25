@@ -14,7 +14,7 @@ server.route({
   method: 'GET',
   path: '/{id}',
   handler: function(request, reply) {
-    feed.fetchGraph(request.params.id)
+    feed.fetchGraph(request.params.id, request.query.type)
       .then(feed.generateFeed)
       .then(reply)
       .catch(reply);

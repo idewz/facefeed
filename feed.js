@@ -5,12 +5,18 @@ var RSS     = require('rss');
 
 function Feed() {
   this.token = conf.get('ACCESS_TOKEN');
+  this.allowed_types = [
+    'posts',
+    'tagged',
+    'promotable_posts'
+  ];
 }
 
-Feed.prototype.fetchGraph = function(id) {
+Feed.prototype.fetchGraph = function(id, type) {
   var deferred = Q.defer();
+  var edge     = this.allowed_types.indexOf(type) != -1 ? type : 'feed';
   var options  = {
-    url: 'https://graph.facebook.com/v2.3/' + id + '/feed',
+    url: 'https://graph.facebook.com/v2.3/' + id + '/' + edge,
     timeout: conf.get('TIMEOUT'),
     qs: {
       access_token: this.token
